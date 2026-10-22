@@ -1,0 +1,877 @@
+/* ---------- Fuentes ---------- */
+/* La V mayúscula de UnifrakturMaguntia (Fraktur) se lee como B: solo esa letra se toma de Texturina */
+@font-face {
+  font-family: "Cabrio V";
+  src: url("fuentes/v-gotica.woff2") format("woff2");
+  unicode-range: U+0056;
+  font-display: swap;
+}
+
+/* ---------- Paletas ---------- */
+/* s1 = superficies claras, s2 = superficies oscuras. Cada tema redefine solo estos valores */
+:root {
+  --s1-bg: #eeeae3;
+  --s1-fg: #171614;
+  --s1-accent: #8c6b43;
+  --s2-bg: #141311;
+  --s2-fg: #ece6dc;
+  --s2-accent: #b8976a;
+
+  --font-display: "Cabrio V", "UnifrakturMaguntia", "Times New Roman", serif;
+  --font-label: "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --header-h: 5rem;
+  --index-col: clamp(3rem, 20vw, 16rem);
+  --tracking: 0.22em;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Tema principal: fondo oscuro con secciones en beige */
+[data-theme="noche"] {
+  --s1-bg: #121110;
+  --s1-fg: #ece3d2;
+  --s1-accent: #c8a96e;
+  --s2-bg: #dccbab;
+  --s2-fg: #1a1714;
+  --s2-accent: #6f4f26;
+}
+
+/* El preloader queda oscuro aunque las secciones alternadas sean beige, para que resalte el logo dorado */
+[data-theme="noche"] .preloader {
+  --bg: var(--s1-bg);
+  --text: var(--s1-fg);
+  --accent: var(--s1-accent);
+}
+
+[data-theme="bosque"] {
+  --s1-bg: #e8e5da;
+  --s1-fg: #16241e;
+  --s1-accent: #94743f;
+  --s2-bg: #16241e;
+  --s2-fg: #e8e5da;
+  --s2-accent: #c9a96a;
+}
+
+/* ---------- Superficies ---------- */
+/* Los colores se registran como <color> para poder animarlos: cuando una sección .section--alt
+   llega al centro de la pantalla, el JS agrega .is-alt y toda la página funde al segundo color */
+@property --bg { syntax: "<color>"; inherits: true; initial-value: #121110; }
+@property --text { syntax: "<color>"; inherits: true; initial-value: #ece3d2; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #c8a96e; }
+
+:root {
+  --bg: var(--s1-bg);
+  --text: var(--s1-fg);
+  --accent: var(--s1-accent);
+  transition: --bg 1.4s ease, --text 1.4s ease, --accent 1.4s ease;
+}
+:root.is-alt {
+  --bg: var(--s2-bg);
+  --text: var(--s2-fg);
+  --accent: var(--s2-accent);
+}
+
+/* El bot y el botón flotante usan siempre el segundo color, para despegarse del fondo */
+.bot, .bot-toggle, .preloader {
+  --bg: var(--s2-bg);
+  --text: var(--s2-fg);
+  --accent: var(--s2-accent);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Los tonos derivados se recalculan en cada superficie */
+:root, .bot, .bot-toggle, .preloader {
+  --muted: color-mix(in srgb, var(--text) 58%, var(--bg));
+  --line: color-mix(in srgb, var(--text) 12%, transparent);
+  --placeholder: color-mix(in srgb, var(--text) 7%, var(--bg));
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 300 1rem/1.7 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+body.menu-open { overflow: hidden; }
+
+/* Grano de película sobre toda la página: la capa es más grande que la pantalla
+   y salta de posición para que el ruido se mueva como en un fílmico */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -100%;
+  z-index: 95;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-5%, 4%); }
+  40% { transform: translate(4%, -6%); }
+  60% { transform: translate(-3%, 7%); }
+  80% { transform: translate(6%, 2%); }
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: inherit; }
+em { font-style: normal; color: var(--accent); }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1; }
+
+/* Nombres propios y de servicios en Oswald, como "BARBERSTUDIO" del logo: la gótica los vuelve ilegibles */
+.service__name, .barber h3 {
+  font-family: var(--font-label);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Textos chicos en versalitas */
+.header__logo span, .nav, .header__cta, .btn, .link, .hero__eyebrow, .section__label,
+.service__time, .details dt, .rating__count, .footer,
+.bot-toggle, .bot__status, .bot__option {
+  font: 400 0.78rem/1.4 var(--font-label);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+}
+
+/* ---------- Preloader ---------- */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: none;
+  pointer-events: none;
+  animation: preloader-failsafe 0s 6s forwards;
+}
+.is-loaded .preloader { visibility: hidden; transition: visibility 0s 2s; }
+@keyframes preloader-failsafe { to { visibility: hidden; } }
+
+/* Mitades con borde diagonal: juntas tapan la pantalla y al abrirse se van en sentidos opuestos */
+.preloader__half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 56%;
+  background:
+    radial-gradient(60% 80% at 50% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    var(--bg);
+  transition: transform 1.1s cubic-bezier(0.7, 0, 0.2, 1) 0.55s;
+}
+.preloader__half--top { top: 0; clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%); }
+.preloader__half--bottom {
+  bottom: 0;
+  clip-path: polygon(0 18%, 100% 0, 100% 100%, 0 100%);
+  background:
+    radial-gradient(60% 80% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    var(--bg);
+}
+.is-loaded .preloader__half--top { transform: translate3d(-4%, -105%, 0) rotate(-3deg); }
+.is-loaded .preloader__half--bottom { transform: translate3d(4%, 105%, 0) rotate(-3deg); }
+
+/* Línea del corte: sigue la diagonal donde se juntan las mitades (baja 10vh de izquierda a derecha)
+   y se traza justo antes de que se abran */
+.preloader__cut {
+  position: absolute;
+  top: 50%;
+  left: -5%;
+  width: 110%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent) 15%, #fff3d4 50%, var(--accent) 85%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 70%, transparent);
+  transform: rotate(atan2(-10vh, 100vw)) scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.6, 0, 0.2, 1) 0.15s, opacity 0.3s 0.7s;
+}
+.is-loaded .preloader__cut { transform: rotate(atan2(-10vh, 100vw)) scaleX(1); opacity: 0; }
+
+.preloader__center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  animation: preloader-in 1.2s var(--ease) both;
+  transition: opacity 0.4s, transform 0.8s var(--ease), filter 0.4s;
+}
+.is-loaded .preloader__center { opacity: 0; transform: scale(1.08); filter: blur(6px); }
+@keyframes preloader-in { from { opacity: 0; transform: translateY(1.5rem); } }
+
+/* Logo: copia tenue de fondo y copia dorada que se descubre de izquierda a derecha según --load */
+.preloader__logo { position: relative; width: clamp(14rem, 34vw, 30rem); }
+.preloader__logo img { display: block; width: 100%; height: auto; }
+.preloader__ghost { opacity: 0.12; filter: grayscale(1); }
+/* El dorado avanza con un borde difuminado del 20%: la máscara va de opaco a transparente
+   y se desplaza de -20% a 100% según --load, así el frente del color nunca es una línea dura */
+.preloader__fill {
+  position: absolute;
+  inset: 0;
+  --edge: calc(var(--load, 0) * 120%);
+  -webkit-mask: linear-gradient(90deg, #000 calc(var(--edge) - 20%), transparent var(--edge));
+  mask: linear-gradient(90deg, #000 calc(var(--edge) - 20%), transparent var(--edge));
+}
+
+/* Brillo metálico: una sola pasada suave cuando el logo ya está completo (.is-full lo agrega el JS) */
+.preloader__logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 42%, rgba(255, 248, 228, 0.55) 50%, transparent 58%) no-repeat;
+  background-size: 300% 100%;
+  background-position: 150% 0;
+  -webkit-mask: url("multimediz/cabrio-letras.webp") center / 100% 100% no-repeat;
+  mask: url("multimediz/cabrio-letras.webp") center / 100% 100% no-repeat;
+}
+.is-full .preloader__logo::after { animation: shine 0.9s ease-in-out forwards; }
+@keyframes shine { from { background-position: 150% 0; } to { background-position: -150% 0; } }
+
+.preloader__bar {
+  width: clamp(8rem, 16vw, 13rem);
+  height: 1px;
+  background: color-mix(in srgb, var(--text) 15%, transparent);
+  overflow: hidden;
+}
+.preloader__bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(var(--load, 0));
+  transform-origin: left;
+}
+.preloader__tagline {
+  color: var(--muted);
+  font: 400 0.72rem/1 var(--font-label);
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+}
+.preloader__count {
+  position: absolute;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  color: var(--muted);
+  font: 400 0.85rem/1 var(--font-label);
+  letter-spacing: var(--tracking);
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.4s;
+}
+.preloader__count::after { content: "%"; }
+.is-loaded .preloader__count { opacity: 0; }
+
+/* ---------- Cursor tijera (solo mouse) ---------- */
+/* cursor.js agrega .has-scissors cuando la tijera 3D cargó; si falla, queda el cursor del sistema */
+.has-scissors, .has-scissors * { cursor: none; }
+
+.scissors {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 110;
+  width: 84px;
+  height: 84px;
+  pointer-events: none;
+  opacity: 0;
+  /* Hoja de 18 × 12 cuadros renderizados a 168 px, mostrada a 84 px para que se vea nítida en pantallas retina */
+  background: url("multimediz/tijera-sprite.webp") 0 0 / 1512px 1008px no-repeat;
+  transform-origin: 10px 10px;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s;
+}
+.scissors.is-visible { opacity: 1; }
+
+.preview { display: none; }
+
+/* ---------- Marcos de imagen ---------- */
+.hero__media, .barber__photo, .gallery__item {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 30% 15%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%),
+    var(--placeholder);
+}
+.hero__media img, .hero__media video, .barber__photo img, .gallery__item img, .clip video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--ease);
+}
+
+/* El parallax mueve el video dentro del marco, que no se desplaza: así no se encima con la sección siguiente.
+   Es un 20% más alto para que al bajar no aparezca un hueco arriba */
+.hero__media video { top: -20%; height: 120%; transition: none; }
+
+/* ---------- Botones ---------- */
+.btn, .header__cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid currentColor;
+  overflow: hidden;
+  transition: color 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.btn { padding: 1.15rem 1.9rem; white-space: nowrap; }
+.header__cta { padding: 0.8rem 1.3rem; }
+
+/* Relleno que sube desde abajo en hover */
+.btn::before, .header__cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--text);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.6s var(--ease);
+}
+.btn::after {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.6s var(--ease);
+}
+.btn:hover, .header__cta:hover { color: var(--bg); }
+.btn:hover::before, .header__cta:hover::before { transform: scaleY(1); }
+.btn:hover::after { width: 2.5rem; }
+
+/* Variante rellena para la acción principal de una sección */
+.btn--solid { background: var(--text); color: var(--bg); border-color: var(--text); }
+.btn--solid::before { background: var(--accent); }
+.btn--solid:hover { color: var(--bg); }
+
+/* Link de texto con flecha */
+.link { color: var(--text); transition: color 0.4s; }
+.link:hover { color: var(--accent); }
+
+/* ---------- Header ---------- */
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  transition: background 0.5s;
+}
+.header.is-scrolled {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.header__logo { display: flex; align-items: center; gap: 0.8rem; }
+.header__logo img { height: 2.1rem; width: auto; }
+.header__logo span { color: var(--muted); }
+
+.nav { display: flex; gap: 2.75rem; margin-left: auto; }
+.nav a { position: relative; color: var(--muted); transition: color 0.4s; }
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.4rem;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s var(--ease);
+}
+.nav a:hover { color: var(--text); }
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.themes { display: flex; gap: 0.6rem; }
+.themes__btn {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--dot-bg) 50%, var(--dot-accent) 50%);
+  border: 1px solid var(--line);
+  transition: box-shadow 0.4s var(--ease);
+}
+.themes__btn[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px var(--text); }
+[data-theme-set="papel"] { --dot-bg: #eeeae3; --dot-accent: #8c6b43; }
+[data-theme-set="noche"] { --dot-bg: #121110; --dot-accent: #dccbab; }
+[data-theme-set="bosque"] { --dot-bg: #16241e; --dot-accent: #c9a96a; }
+
+.header__burger { display: none; width: 2.5rem; height: 2.5rem; position: relative; }
+.header__burger span {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 1px;
+  background: var(--text);
+  transition: transform 0.5s var(--ease);
+}
+.header__burger span:first-child { top: 1.05rem; }
+.header__burger span:last-child { top: 1.45rem; }
+.menu-open .header__burger span:first-child { transform: translateY(0.2rem) rotate(45deg); }
+.menu-open .header__burger span:last-child { transform: translateY(-0.2rem) rotate(-45deg); }
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100svh;
+  padding: calc(var(--header-h) + 3rem) var(--gutter) 3rem;
+  display: grid;
+  grid-template-columns: 1fr minmax(16rem, 30vw);
+  grid-template-rows: 1fr auto;
+  column-gap: clamp(2rem, 5vw, 5rem);
+  /* Resplandor del color de acento que se desplaza lento detrás del título */
+  background: radial-gradient(40% 50% at var(--glow-x, 25%) var(--glow-y, 35%), color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
+  animation: glow 14s ease-in-out infinite alternate;
+}
+@property --glow-x { syntax: "<percentage>"; inherits: false; initial-value: 25%; }
+@property --glow-y { syntax: "<percentage>"; inherits: false; initial-value: 35%; }
+@keyframes glow {
+  50% { --glow-x: 55%; --glow-y: 70%; }
+  100% { --glow-x: 15%; --glow-y: 55%; }
+}
+.hero__content { align-self: end; }
+.hero__eyebrow { margin-bottom: 2rem; color: var(--accent); }
+
+.hero__title { font-size: clamp(2.6rem, 6.4vw, 7.4rem); line-height: 0.95; letter-spacing: -0.02em; }
+.hero__line { display: block; overflow: hidden; padding: 0.04em 0.08em 0.2em 0; margin-bottom: -0.1em; }
+/* Las demoras arrancan en 0.8s para que el título aparezca mientras se abre el preloader */
+.hero__line > span { display: block; transition: transform 1.4s var(--ease) 0.8s; }
+.hero__line:nth-child(2) { padding-left: clamp(2rem, 8vw, 8rem); }
+.hero__line:nth-child(2) > span { transition-delay: 0.9s; }
+.hero__line:nth-child(3) > span { transition-delay: 1s; }
+.js .hero__line > span { transform: translateY(110%); }
+.is-loaded .hero__line > span { transform: none; }
+
+.hero__media { grid-column: 2; grid-row: 1 / 3; transition: clip-path 1.6s var(--ease) 1s; }
+.js .hero__media { clip-path: inset(100% 0 0 0); }
+.is-loaded .hero__media { clip-path: inset(0); }
+
+.hero__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+.hero__text { max-width: 25rem; color: var(--muted); font-size: 0.95rem; }
+.hero__footer .btn { flex-shrink: 0; }
+
+/* ---------- Marquee ---------- */
+.marquee { overflow: hidden; padding: 1.9rem 0; color: var(--muted); }
+.marquee__track { display: flex; width: max-content; animation: marquee 55s linear infinite; }
+.marquee__track span {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+  font: 400 clamp(1.5rem, 3vw, 2.4rem)/1 var(--font-display);
+  white-space: nowrap;
+}
+.marquee__track span::after {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border: 1px solid var(--accent);
+  transform: rotate(45deg);
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Secciones ---------- */
+.section { padding: clamp(6rem, 13vw, 11rem) var(--gutter); }
+
+.section__head {
+  display: grid;
+  grid-template-columns: var(--index-col) 1fr;
+  align-items: baseline;
+  gap: 2rem;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+}
+.section__label { color: var(--muted); }
+/* El título siempre ocupa la última columna, aunque la sección no tenga etiqueta */
+.section__title { grid-column: -2; font-size: clamp(2.75rem, 6.5vw, 6rem); line-height: 0.95; letter-spacing: -0.015em; }
+
+/* ---------- Manifiesto ---------- */
+.manifesto { display: grid; grid-template-columns: var(--index-col) 1fr; gap: 2rem; align-items: baseline; }
+.manifesto__text { max-width: 58rem; font: 400 clamp(1.9rem, 3.6vw, 3.5rem)/1.18 var(--font-display); letter-spacing: -0.01em; }
+.js .word { opacity: 0.14; transition: opacity 0.5s; }
+.js .word.is-lit { opacity: 1; }
+
+/* ---------- Servicios ---------- */
+/* Filas sin bordes: la lista se ordena por aire, y la que no está bajo el mouse se atenúa */
+.service {
+  display: grid;
+  grid-template-columns: var(--index-col) 1fr 6rem 7rem;
+  align-items: baseline;
+  gap: 2rem;
+  width: 100%;
+  padding: 1.75rem 0;
+  transition: opacity 0.6s var(--ease);
+}
+.services__list:hover .service:not(:hover) { opacity: 0.35; }
+
+.service__time { color: var(--muted); }
+.service__body { display: block; grid-column: 2; }
+.service__name { display: block; font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1; transition: transform 0.8s var(--ease), color 0.4s; }
+.service:hover .service__name, .service:focus-visible .service__name { transform: translateX(0.75rem); color: var(--accent); }
+.service__desc { display: block; margin-top: 0.6rem; color: var(--muted); font-size: 0.9rem; }
+.service__price { text-align: right; font: 400 1.6rem/1 var(--font-display); font-variant-numeric: lining-nums tabular-nums; }
+
+/* Etiqueta "Agendar + servicio" que acompaña al mouse sobre la lista; aparece con una cortina */
+.has-preview .preview {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 45;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: -1.5rem 0 0 2.75rem;
+  padding: 0.9rem 1.4rem 1rem;
+  pointer-events: none;
+  background: var(--accent);
+  color: var(--bg);
+  white-space: nowrap;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.6s var(--ease);
+}
+.preview.is-visible { clip-path: inset(0); }
+.preview__label { font: 500 0.66rem/1 var(--font-label); letter-spacing: var(--tracking); text-transform: uppercase; }
+.preview__name { font: 400 1.7rem/1 var(--font-display); }
+
+/* ---------- Equipo ---------- */
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+.barber:nth-child(2) { margin-top: 5rem; }
+
+.barber__photo { display: block; aspect-ratio: 4 / 5; margin-bottom: 1.5rem; }
+
+/* Zoom suave de la foto al pasar el mouse */
+.barber__photo:hover img { transform: scale(1.04); }
+
+/* Aviso de Instagram al pasar el mouse */
+.barber__photo::after {
+  content: "Ver Instagram ↗";
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  padding: 0.5rem 0.8rem;
+  background: var(--text);
+  color: var(--bg);
+  font: 400 0.7rem/1 var(--font-label);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: opacity 0.4s, transform 0.6s var(--ease);
+}
+.barber__photo:hover::after, .barber__photo:focus-visible::after { opacity: 1; transform: none; }
+
+.barber h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+.barber p { margin-top: 0.6rem; color: var(--muted); font-size: 0.9rem; }
+
+/* ---------- Galería ---------- */
+.gallery { padding: clamp(6rem, 13vw, 11rem) 0; }
+.gallery__head { padding-inline: var(--gutter); }
+
+.gallery__track {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 var(--gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.gallery__track::-webkit-scrollbar { display: none; }
+
+.gallery__item {
+  flex: 0 0 auto;
+  width: min(78vw, 22rem);
+  aspect-ratio: 4 / 5;
+  scroll-snap-align: start;
+}
+.gallery__item:hover img { transform: scale(1.04); }
+
+/* Modo fijo con desplazamiento horizontal (lo activa el JS en escritorio) */
+.gallery.is-pinned { padding: 0; }
+.gallery.is-pinned .gallery__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.gallery.is-pinned .gallery__track { width: max-content; overflow: visible; align-items: center; will-change: transform; }
+.gallery.is-pinned .gallery__item { width: auto; height: clamp(16rem, 52vh, 34rem); }
+.gallery.is-pinned .gallery__item:nth-child(3n + 2) { aspect-ratio: 1; align-self: flex-end; }
+.gallery.is-pinned .gallery__item:nth-child(3n) { aspect-ratio: 3 / 4; height: clamp(14rem, 42vh, 28rem); align-self: flex-start; }
+
+/* ---------- Videos ---------- */
+.videos__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2.5vw, 2.5rem); }
+.clip { position: relative; display: flex; align-items: flex-end; aspect-ratio: 9 / 16; padding: 1.25rem; overflow: hidden; background: var(--placeholder); }
+.clip:nth-child(2) { margin-top: 5rem; }
+.clip figcaption { position: relative; z-index: 1; color: #f4efe6; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6); }
+
+/* Indicador de sonido: el JS agrega .has-sound al video que está sonando */
+.clip::after {
+  content: "Sin sonido";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.7rem;
+  background: rgba(0, 0, 0, 0.55);
+  color: #f4efe6;
+  font: 400 0.7rem/1 var(--font-label);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+}
+.clip.has-sound::after { content: "Con sonido"; background: var(--accent); color: var(--bg); }
+.clip[data-no-audio]::after { content: none; }
+
+/* ---------- Ubicación y reseñas ---------- */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+/* El mapa de Google se tiñe con filtros para que combine con el beige de la sección */
+.map { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--placeholder); }
+.map__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(1) sepia(0.35) contrast(1.05) brightness(0.98); }
+
+.rating { display: flex; align-items: center; gap: 1.5rem; }
+.rating__score { font: 400 clamp(4.5rem, 8vw, 7rem)/0.85 var(--font-display); }
+.rating__stars { color: var(--accent); font-size: 1.1rem; letter-spacing: 0.25em; }
+.rating__count { margin-top: 0.4rem; color: var(--muted); }
+
+.contact__links { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem; margin: 2rem 0 3rem; }
+
+.details { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
+.details div { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.95rem; }
+.details dt { color: var(--muted); }
+
+/* Reseñas: tarjetas con un tono apenas distinto del fondo, sin bordes */
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+.review {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+}
+.review p { font-size: 0.95rem; line-height: 1.65; }
+.review p::before { content: "“"; display: block; height: 2.2rem; font: 400 3.5rem/1 var(--font-display); color: var(--accent); }
+.review footer { color: var(--muted); font: 400 0.7rem/1 var(--font-label); letter-spacing: var(--tracking); text-transform: uppercase; }
+.review:nth-child(2) { transition-delay: 0.1s; }
+.review:nth-child(3) { transition-delay: 0.2s; }
+.review:nth-child(4) { transition-delay: 0.3s; }
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem var(--gutter);
+  color: var(--muted);
+}
+
+/* ---------- Bot de turnos ---------- */
+/* Botón flotante solo para celular: en escritorio ya está "Pedir turno" en el header */
+.bot-toggle {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 1rem;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.05rem 1.5rem;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  transition: transform 0.6s var(--ease), opacity 0.4s;
+}
+.bot-toggle::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border: 1px solid var(--accent);
+  transform: rotate(45deg);
+}
+/* El JS agrega .is-hidden mientras se ven secciones que ya tienen su propio botón */
+.bot-open .bot-toggle, .bot-toggle.is-hidden { opacity: 0; transform: translateY(1rem); pointer-events: none; }
+
+.bot {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  width: min(25rem, calc(100vw - 2rem));
+  height: min(36rem, 82svh);
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(1rem);
+  visibility: hidden;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), visibility 0.5s;
+}
+.bot-open .bot { opacity: 1; transform: none; visibility: visible; }
+
+.bot__head { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); }
+
+/* Avance del pedido, lo actualiza el JS en cada paso */
+.bot__head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(var(--step, 0));
+  transform-origin: left;
+  transition: transform 0.6s var(--ease);
+}
+.bot__title { font: 400 1.6rem/1 var(--font-display); }
+.bot__status { margin-top: 0.5rem; color: var(--muted); }
+.bot__close { font-size: 1.6rem; font-weight: 200; line-height: 1; color: var(--muted); transition: color 0.3s; }
+.bot__close:hover { color: var(--text); }
+
+.bot__messages { flex: 1; display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; }
+.bot__msg { max-width: 85%; font-size: 0.9rem; line-height: 1.6; white-space: pre-line; animation: msg-in 0.5s var(--ease); }
+.bot__msg--bot { align-self: flex-start; padding-left: 1rem; border-left: 1px solid var(--accent); }
+.bot__msg--user { align-self: flex-end; padding: 0.6rem 1rem; border: 1px solid var(--line); color: var(--muted); }
+.bot__msg.is-typing::after { content: "· · ·"; animation: blink 1s infinite; }
+@keyframes msg-in { from { opacity: 0; transform: translateY(6px); } }
+@keyframes blink { 50% { opacity: 0.25; } }
+
+.bot__options { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 1.5rem; max-height: 10rem; overflow-y: auto; }
+.bot__options:not(:empty) { padding-bottom: 1.5rem; }
+.bot__option { padding: 0.75rem 1rem; border: 1px solid var(--line); transition: border-color 0.3s, color 0.3s; }
+.bot__option:hover { border-color: var(--accent); color: var(--accent); }
+
+.bot__form { display: flex; gap: 0.75rem; padding: 1rem 1.5rem; border-top: 1px solid var(--line); }
+.bot__form[hidden] { display: none; }
+.bot__input { flex: 1; padding: 0.6rem 0; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--text); font: inherit; }
+.bot__input:focus { outline: 0; border-color: var(--accent); }
+.bot__input.is-invalid { border-color: #c86a5a; }
+.bot__send { padding: 0 0.5rem; color: var(--accent); font-size: 1.2rem; }
+
+/* ---------- Animación de entrada ---------- */
+.js [data-reveal] { opacity: 0; transform: translateY(2rem); transition: opacity 1.2s var(--ease), transform 1.2s var(--ease); }
+.js [data-reveal].is-visible { opacity: 1; transform: none; }
+.barber:nth-child(2) { transition-delay: 0.12s; }
+.barber:nth-child(3) { transition-delay: 0.24s; }
+
+/* ---------- Responsive ---------- */
+/* Escritorio chico y tablet horizontal: el header se compacta para que entren menú, temas y botón */
+@media (min-width: 861px) and (max-width: 1200px) {
+  .header { gap: 1.5rem; }
+  .header__logo span { display: none; }
+  .nav { gap: 1.5rem; }
+}
+
+@media (max-width: 860px) {
+  :root { --index-col: 2.5rem; }
+
+  .header { z-index: 70; gap: 1.25rem; }
+  .header__cta { display: none; }
+  .themes { margin-left: auto; }
+  .header__burger { display: block; }
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: var(--gutter);
+    background: var(--bg);
+    font: 400 2.75rem/1.2 var(--font-display);
+    letter-spacing: 0;
+    text-transform: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+  .menu-open .nav { opacity: 1; visibility: visible; }
+  .nav a { color: var(--text); }
+
+  .hero { min-height: auto; grid-template-columns: 1fr; grid-template-rows: auto; }
+  .hero__media { grid-column: auto; grid-row: auto; margin-top: 2.5rem; aspect-ratio: 4 / 5; }
+  .hero__footer { flex-direction: column; align-items: flex-start; }
+
+  .section__head, .manifesto { grid-template-columns: 1fr; gap: 1rem; }
+  .service { grid-template-columns: 1fr auto; gap: 1rem; }
+  .service__body { grid-column: 1; }
+  .service__time { display: none; }
+
+  .team__grid { grid-template-columns: 1fr; gap: 3rem; }
+  .barber:nth-child(2) { margin-top: 0; }
+
+  /* En celular los videos se deslizan de costado */
+  .videos__grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 72vw; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .clip { scroll-snap-align: start; }
+  .clip:nth-child(2) { margin-top: 0; }
+
+  .contact__grid { grid-template-columns: 1fr; }
+  .map { aspect-ratio: 1; }
+
+  /* En celular las reseñas se deslizan de costado */
+  .reviews { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80vw; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+  .review { scroll-snap-align: center; }
+  .footer { flex-direction: column; }
+  .bot-toggle { display: flex; }
+  /* Espacio al final para que el botón flotante no tape el último contenido */
+  main { padding-bottom: 4.5rem; }
+  .bot-toggle { background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); }
+}
+
+/* Tablet vertical: el video del inicio no ocupa toda la pantalla y el equipo va en tres columnas */
+@media (min-width: 561px) and (max-width: 860px) {
+  .hero__media { aspect-ratio: 4 / 3; }
+  .team__grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .barber h3 { font-size: 1.3rem; }
+}
+
+/* Celulares chicos: menos aire a los costados y títulos un poco más chicos */
+@media (max-width: 380px) {
+  :root { --gutter: 1rem; }
+  .header__logo span { display: none; }
+  .section__title { font-size: 2.4rem; }
+  .rating__score { font-size: 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}

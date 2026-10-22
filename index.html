@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cabrio Barber Studio | Barbería en Belgrano, CABA</title>
+  <meta name="description" content="Barbería en Belgrano, Virrey del Pino 2710. Cortes clásicos y modernos, barba, afeitado clásico, color y peinados. Pedí tu turno online por WhatsApp.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#121110">
+  <meta name="geo.region" content="AR-C">
+  <meta name="geo.placename" content="Belgrano, Ciudad Autónoma de Buenos Aires">
+  <meta name="geo.position" content="-34.5682414;-58.455752">
+
+  <!-- SITIO_URL: reemplazar por la dirección final al publicar (también en robots.txt y sitemap.xml) -->
+  <link rel="canonical" href="SITIO_URL/">
+
+  <!-- Vista previa al compartir en WhatsApp, Instagram, Facebook y X -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Cabrio Barber Studio">
+  <meta property="og:title" content="Cabrio Barber Studio | Barbería en Belgrano, CABA">
+  <meta property="og:description" content="Cortes clásicos y modernos, barba, afeitado clásico, color y peinados en Virrey del Pino 2710. Pedí tu turno online.">
+  <meta property="og:url" content="SITIO_URL/">
+  <meta property="og:image" content="SITIO_URL/multimediz/compartir.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Interior de Cabrio con el cartel de neón">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <!-- Ficha del negocio para Google (datos estructurados de schema.org). Es JSON de datos, no código ejecutable -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HairSalon",
+    "@id": "SITIO_URL/#barberia",
+    "name": "Cabrio Barber Studio",
+    "description": "Barbería en Belgrano con cortes clásicos y modernos, barba, afeitado clásico, color y peinados.",
+    "url": "SITIO_URL/",
+    "image": "SITIO_URL/multimediz/compartir.jpg",
+    "logo": "SITIO_URL/icono-512.png",
+    "telephone": "+54 9 11 2591-6083",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Virrey del Pino 2710",
+      "addressLocality": "Ciudad Autónoma de Buenos Aires",
+      "addressRegion": "CABA",
+      "postalCode": "C1426",
+      "addressCountry": "AR"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": -34.5682414, "longitude": -58.455752 },
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Barberia+CabrioStudio&query_place_id=ChIJ8SZYFT61vJURMBfX44E0KQc",
+    "areaServed": "Belgrano, Ciudad Autónoma de Buenos Aires",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "10:00", "closes": "20:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "19:00" }
+    ],
+    "sameAs": ["https://www.instagram.com/cabriostudio/"],
+    "makesOffer": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Corte" }, "price": "23000", "priceCurrency": "ARS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Barba" }, "price": "15000", "priceCurrency": "ARS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Corte + barba" }, "price": "29000", "priceCurrency": "ARS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Afeitado clásico" }, "price": "18000", "priceCurrency": "ARS" }
+    ],
+    "employee": [
+      { "@type": "Person", "name": "Pablo", "jobTitle": "Barbero" },
+      { "@type": "Person", "name": "Franky", "jobTitle": "Barbero", "sameAs": "https://www.instagram.com/frankypelos/" },
+      { "@type": "Person", "name": "Aixa", "jobTitle": "Barbera" }
+    ]
+  }
+  </script>
+
+  <!-- Recursos de la primera pantalla: se piden antes para que el inicio cargue más rápido -->
+  <link rel="preload" as="image" href="multimediz/cabrio-letras.webp" type="image/webp">
+  <link rel="preload" as="image" href="multimediz/hero-cabrio.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Pantalla de carga: el logo se llena de dorado con el avance (--load, lo actualiza el JS)
+       y al terminar las dos mitades se abren en diagonal, como las hojas de una tijera -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__half preloader__half--top"></div>
+    <div class="preloader__half preloader__half--bottom"></div>
+    <span class="preloader__cut"></span>
+    <div class="preloader__center">
+      <div class="preloader__logo">
+        <img class="preloader__ghost" src="multimediz/cabrio-letras.webp" alt="" width="551" height="187">
+        <img class="preloader__fill" src="multimediz/cabrio-letras.webp" alt="" width="551" height="187">
+      </div>
+      <span class="preloader__bar"></span>
+      <p class="preloader__tagline">Barber Studio · Belgrano</p>
+    </div>
+    <span class="preloader__count">0</span>
+  </div>
+
+
+  <!-- Etiqueta que sigue al mouse sobre la lista de servicios; el JS completa el nombre del servicio -->
+  <div class="preview" aria-hidden="true">
+    <span class="preview__label">Agendar</span>
+    <span class="preview__name"></span>
+  </div>
+
+  <header class="header">
+    <a class="header__logo" href="#inicio"><img src="multimediz/cabrio-letras.webp" alt="Cabrio" width="551" height="187"><span>Barbería</span></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#galeria">Galería</a>
+      <a href="#videos">Videos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="themes" role="group" aria-label="Tema de color">
+      <button class="themes__btn" type="button" data-theme-set="noche" aria-label="Tema noche"></button>
+      <button class="themes__btn" type="button" data-theme-set="papel" aria-label="Tema papel"></button>
+      <button class="themes__btn" type="button" data-theme-set="bosque" aria-label="Tema bosque"></button>
+    </div>
+    <button class="header__cta" type="button" data-bot-open data-magnetic>Pedir turno</button>
+    <button class="header__burger" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="hero" id="inicio">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Barbería clásica · Buenos Aires</p>
+        <h1 class="hero__title">
+          <span class="hero__line"><span>Cortes clásicos,</span></span>
+          <span class="hero__line"><span>modernos y</span></span>
+          <span class="hero__line"><span><em>excelente ambiente.</em></span></span>
+        </h1>
+      </div>
+      <figure class="hero__media" data-parallax>
+        <video src="multimediz/hero-cabrio.mp4" poster="multimediz/hero-cabrio.webp" autoplay muted loop playsinline aria-label="Un día de trabajo en Cabrio"></video>
+      </figure>
+      <div class="hero__footer">
+        <p class="hero__text">Atención con turno y orden de llegada. Tijera, máquina y navaja en manos de gente que se toma el tiempo y compromiso necesario.</p>
+        <button class="btn" type="button" data-bot-open data-magnetic>Reservar mi turno</button>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Corte</span><span>Corte clásico</span><span>Corte moderno</span><span>Barba</span><span>Perfilado</span><span>Afeitado a navaja</span><span>Peinados</span><span>Asesoramiento personalizado</span><span>Cuidado facial</span>
+        <span>Corte</span><span>Corte clásico</span><span>Corte moderno</span><span>Barba</span><span>Perfilado</span><span>Afeitado a navaja</span><span>Peinados</span><span>Asesoramiento personalizado</span><span>Cuidado facial</span>
+      </div>
+    </div>
+
+    <section class="section manifesto" aria-label="Nuestra forma de trabajar">
+      <p class="section__label">El oficio</p>
+      <p class="manifesto__text" data-words>Somos Cabrio, tus profesionales de confianza. Del corte y el afeitado clásicos a los cortes, colores y peinados más modernos, trabajamos para potenciar tu imagen. Te asesoramos, hacemos un diagnóstico de tu pelo y convertimos tu idea en realidad. Vení a conocernos.</p>
+    </section>
+
+    <section class="section services" id="servicios">
+      <header class="section__head" data-reveal>
+        <p class="section__label">Servicios</p>
+        <h2 class="section__title">Lo que <em>hacemos</em></h2>
+      </header>
+      <!-- El bot de turnos lee data-service y data-price; al hacer clic abre el bot con ese servicio elegido -->
+      <ul class="services__list">
+        <li data-reveal>
+          <button class="service" type="button" data-service="Corte" data-price="$23.000">
+            <span class="service__body">
+              <span class="service__name">Corte</span>
+              <span class="service__desc">Tijera y máquina, lavado y peinado final.</span>
+            </span>
+            <span class="service__time">15–30 min</span>
+            <span class="service__price">$23.000</span>
+          </button>
+        </li>
+        <li data-reveal>
+          <button class="service" type="button" data-service="Barba" data-price="$15.000">
+            <span class="service__body">
+              <span class="service__name">Barba</span>
+              <span class="service__desc">Perfilado, toalla caliente y aceite.</span>
+            </span>
+            <span class="service__time">15 min</span>
+            <span class="service__price">$15.000</span>
+          </button>
+        </li>
+        <li data-reveal>
+          <button class="service" type="button" data-service="Corte + barba" data-price="$29.000">
+            <span class="service__body">
+              <span class="service__name">Corte + barba</span>
+              <span class="service__desc">El combo completo en una sola visita.</span>
+            </span>
+            <span class="service__time">30–45 min</span>
+            <span class="service__price">$29.000</span>
+          </button>
+        </li>
+        <li data-reveal>
+          <button class="service" type="button" data-service="Afeitado clásico" data-price="$18.000">
+            <span class="service__body">
+              <span class="service__name">Afeitado clásico</span>
+              <span class="service__desc">Ritual tradicional con espuma y toallas calientes.</span>
+            </span>
+            <span class="service__time">25 min</span>
+            <span class="service__price">$18.000</span>
+          </button>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section section--alt team" id="equipo">
+      <header class="section__head" data-reveal>
+        <p class="section__label">Equipo</p>
+        <h2 class="section__title">Quién te <em>atiende</em></h2>
+      </header>
+      <!-- Cada foto abre el Instagram del estilista -->
+      <div class="team__grid">
+        <article class="barber" data-reveal data-barber="Pablo">
+          <a class="barber__photo" href="https://www.instagram.com/cabriostudio/" target="_blank" rel="noopener" aria-label="Instagram de Pablo">
+            <img src="multimediz/equipo-pablo.webp" alt="Pablo, barbero de Cabrio, arreglando la barba de un cliente" width="800" height="1000" loading="lazy" decoding="async">
+          </a>
+          <h3>Pablo</h3>
+          <p>Cortes clásicos, cortes modernos, barba y cortes con tijera.</p>
+        </article>
+        <article class="barber" data-reveal data-barber="Franky">
+          <a class="barber__photo" href="https://www.instagram.com/frankypelos/" target="_blank" rel="noopener" aria-label="Instagram de Franky">
+            <img src="multimediz/equipo-franky.webp" alt="Franky, barbero de Cabrio" width="800" height="1000" loading="lazy" decoding="async">
+          </a>
+          <h3>Franky</h3>
+          <p>Cortes modernos y clásicos, barba y cortes con tijera.</p>
+        </article>
+        <article class="barber" data-reveal data-barber="Aixa">
+          <a class="barber__photo" href="https://www.instagram.com/cabriostudio/" target="_blank" rel="noopener" aria-label="Instagram de Aixa">
+            <img src="multimediz/equipo-aixa.webp" alt="Aixa, barbera de Cabrio" width="800" height="1000" loading="lazy" decoding="async">
+          </a>
+          <h3>Aixa</h3>
+          <p>Cortes clásicos y modernos, barba, cortes con tijera y peinados.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- En escritorio la galería queda fija y se desplaza en horizontal con el scroll -->
+    <section class="gallery" id="galeria">
+      <div class="gallery__sticky">
+        <header class="section__head gallery__head">
+          <p class="section__label">Galería</p>
+          <h2 class="section__title">Nuestros <em>clientes</em></h2>
+        </header>
+        <!-- Para sumar fotos: un figure por imagen. Los vacíos se muestran como marco de muestra -->
+        <div class="gallery__track">
+          <figure class="gallery__item"><img src="multimediz/equipo-trabajando.webp" width="720" height="960" alt="Pablo, Franky y Aixa trabajando en el local" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/salon-completo.webp" width="1400" height="1399" alt="El salón de Cabrio con los tres sillones trabajando" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/peinado-clasico.webp" width="1400" height="1399" alt="Peinado clásico con peine y degradado" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/neon-espejo.webp" width="1400" height="1399" alt="Corte frente al espejo dorado bajo el neón de Cabrio" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/fade-rulos.webp" width="720" height="960" alt="Degradado bajo con rulos" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/barba-ventana.webp" width="1400" height="1399" alt="Arreglo de barba junto a la ventana" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/corte-espejo.webp" width="1400" height="1399" alt="Cliente revisando su corte en el espejo" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/perfilado-sillon.webp" width="1400" height="1400" alt="Perfilado de barba con máquina en el sillón" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/espejo-neon-2.webp" width="1400" height="1399" alt="Corte reflejado en el espejo con el cartel de neón" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/fade-barba.webp" width="1170" height="1170" alt="Fade bajo y arreglo de barba con máquina" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/trenzas-1.webp" width="1400" height="1400" alt="Trenzas pegadas vistas desde arriba" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/local-neon.webp" width="1051" height="1400" alt="Corte frente al espejo con el cartel de neón de Cabrio" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/fade-nuca.webp" width="1023" height="1279" alt="Degradado en la nuca con máquina" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/corte-tijera.webp" width="1023" height="1279" alt="Corte con tijera y peine" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/trenzas-2.webp" width="1400" height="1400" alt="Trenzas pegadas con degradado lateral" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/cartel-neon.webp" width="1023" height="1281" alt="Cartel de neón de Cabrio Barber Studio" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/perfilado-barba.webp" width="1170" height="1170" alt="Perfilado de barba con máquina" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/fade-lateral.webp" width="1023" height="1281" alt="Degradado lateral con barba" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/barba-sillon.webp" width="1023" height="1279" alt="Arreglo de barba en el sillón" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/cuadro-tyson.webp" width="1023" height="1279" alt="Cuadro de arte urbano en el local" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/afeitado-maquina.webp" width="1119" height="1400" alt="Perfilado con afeitadora" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/espejo.webp" width="1023" height="1279" alt="Barbero trabajando reflejado en el espejo" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/cliente-local.webp" width="1119" height="1400" alt="Cliente en el sillón dentro del local" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/local-cabrio.webp" width="1080" height="1080" alt="Barbero trabajando con el cartel de neón de Cabrio" loading="lazy" decoding="async"></figure>
+          <figure class="gallery__item"><img src="multimediz/cartel-vidriera.webp" width="1023" height="1281" alt="Cartel de Cabrio en la vidriera" loading="lazy" decoding="async"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Los videos arrancan sin sonido al entrar en pantalla; un clic activa el sonido.
+         data-no-audio marca los videos que no tienen pista de audio -->
+
+    <section class="section videos" id="videos">
+      <header class="section__head" data-reveal>
+        <p class="section__label">Videos</p>
+        <h2 class="section__title">En <em>movimiento</em></h2>
+      </header>
+      <div class="videos__grid">
+        <figure class="clip" data-reveal>
+          <video src="multimediz/video-negroni.mp4" poster="multimediz/video-negroni.webp" muted loop playsinline preload="none"></video>
+          <figcaption>Negroni Session</figcaption>
+        </figure>
+        <figure class="clip" data-reveal data-no-audio>
+          <video src="multimediz/video-decoloracion.mp4" poster="multimediz/video-decoloracion.webp" muted loop playsinline preload="none"></video>
+          <figcaption>Decoloración y rubio ceniza</figcaption>
+        </figure>
+        <figure class="clip" data-reveal>
+          <video src="multimediz/video-brahma.mp4" poster="multimediz/video-brahma.webp" muted loop playsinline preload="none"></video>
+          <figcaption>Colaboración con Brahma</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Ubicación, reseñas y contacto. La calificación y la cantidad de reseñas se copian a mano desde la ficha de Google -->
+    <section class="section section--alt contact" id="contacto">
+      <header class="section__head" data-reveal>
+        <p class="section__label">Ubicación</p>
+        <h2 class="section__title">Vení a <em>conocernos</em></h2>
+      </header>
+      <div class="contact__grid">
+        <div class="map" data-reveal>
+          <iframe class="map__frame" src="https://www.google.com/maps?q=Barberia+CabrioStudio,+Virrey+del+Pino+2710,+CABA&amp;z=16&amp;output=embed" title="Mapa de Cabrio en Virrey del Pino 2710" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="contact__info" data-reveal>
+          <div class="rating">
+            <p class="rating__score">4,9</p>
+            <div>
+              <p class="rating__stars" aria-label="4,9 de 5 estrellas">★★★★★</p>
+              <p class="rating__count">269 reseñas en Google</p>
+            </div>
+          </div>
+          <div class="contact__links">
+            <a class="btn" href="https://search.google.com/local/reviews?placeid=ChIJ8SZYFT61vJURMBfX44E0KQc" target="_blank" rel="noopener">Leer reseñas</a>
+            <a class="link" href="https://www.google.com/maps/dir/?api=1&amp;destination=Virrey+del+Pino+2710,+CABA" target="_blank" rel="noopener">Cómo llegar ↗</a>
+          </div>
+          <dl class="details">
+            <div><dt>Dirección</dt><dd>Virrey del Pino 2710, Belgrano</dd></div>
+            <div><dt>Lunes a viernes</dt><dd>10 a 20 h</dd></div>
+            <div><dt>Sábados</dt><dd>10 a 19 h</dd></div>
+            <div><dt>Domingos</dt><dd>Cerrado</dd></div>
+          </dl>
+          <button class="btn btn--solid" type="button" data-bot-open data-magnetic>Pedir turno</button>
+        </div>
+      </div>
+
+      <!-- PENDIENTE: estos textos son traducciones al español de reseñas reales de la ficha de Google
+           (Google las entrega traducidas al inglés). Reemplazarlos por el texto original antes de publicar -->
+      <div class="reviews">
+        <blockquote class="review" data-reveal>
+          <p>Una de las mejores barberías en las que me corté el pelo. Descubrí Cabrio en 2022, me mudé hace un año y todavía vuelvo todos los meses. Excelente atención y gran calidad. ¡10 de 10!</p>
+          <footer>Reseña en Google</footer>
+        </blockquote>
+        <blockquote class="review" data-reveal>
+          <p>Desde que Pablo le corta el pelo, mi hijo está feliz. Me encanta la energía de la barbería, su estilo y el cuidado que tiene con sus clientes. Mi hijo tiene 10 años y se siente genial cada vez que va.</p>
+          <footer>Reseña en Google</footer>
+        </blockquote>
+        <blockquote class="review" data-reveal>
+          <p>Respuesta rápida para sacar turno por WhatsApp, el lugar siempre impecable y con un ambiente buenísimo. ¡Aixa es la mejor! Muy detallista con las terminaciones, te asesora y te explica cómo lograr el look que tenés en mente.</p>
+          <footer>Reseña en Google</footer>
+        </blockquote>
+        <blockquote class="review" data-reveal>
+          <p>Muy recomendable. El equipo es súper amable y siempre está dispuesto a ayudar. Aunque no hablo español, hicieron todo lo posible y me sentí muy cómodo.</p>
+          <footer>Reseña en Google</footer>
+        </blockquote>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>© Cabrio Barbería</p>
+    <p>Diseño y desarrollo: Cancado Media</p>
+  </footer>
+
+  <button class="bot-toggle" type="button" data-bot-open>Pedir turno</button>
+
+  <aside class="bot" aria-label="Asistente de turnos" inert>
+    <header class="bot__head">
+      <div>
+        <p class="bot__title">Asistente de turnos</p>
+        <p class="bot__status">Respuesta inmediata</p>
+      </div>
+      <button class="bot__close" type="button" aria-label="Cerrar asistente">×</button>
+    </header>
+    <div class="bot__messages" aria-live="polite"></div>
+    <div class="bot__options"></div>
+    <form class="bot__form" hidden>
+      <input class="bot__input" type="text" aria-label="Respuesta" required>
+      <button class="bot__send" type="submit" aria-label="Enviar">→</button>
+    </form>
+  </aside>
+
+  <script src="script.js"></script>
+  <script src="cursor.js"></script>
+</body>
+</html>

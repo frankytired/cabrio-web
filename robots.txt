@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /blender/
+
+Sitemap: SITIO_URL/sitemap.xml

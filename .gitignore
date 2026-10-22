@@ -1,0 +1,15 @@
+# Archivos de trabajo que no forman parte del sitio
+blender/
+Estructura.txt
+fuentes/letras-legibles.woff2
+
+# Imágenes y videos viejos que la página ya no usa
+multimediz/equipo-*-[0-9].webp
+multimediz/cabrio1.jpg
+multimediz/cabrio2.jpg
+multimediz/cabrio2.heic
+multimediz/cabrio3.jpg
+multimediz/cabrio-letras.png
+multimediz/logo-cabrio.webp
+multimediz/logo PNG.png
+multimediz/hero-decoloracion.*
