@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /blender/
 
-Sitemap: SITIO_URL/sitemap.xml
+Sitemap: https://frankytired.github.io/cabrio-web/sitemap.xml
