@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /blender/
 
-Sitemap: https://frankytired.github.io/cabrio-web/sitemap.xml
+Sitemap: https://cabriostudio.netlify.app/sitemap.xml
