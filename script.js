@@ -2,12 +2,13 @@
 const WHATSAPP = "5491125916083"; // Número del local, formato internacional sin "+"
 // Horario del local por día de la semana (0 = domingo), en horas decimales. Los días que no figuran están cerrados
 const SCHEDULE = { 1: [10, 20], 2: [10, 20], 3: [10, 20], 4: [10, 20], 5: [10, 20], 6: [10, 19] };
-// Franjas de cada estilista (10.5 = 10:30). Se recortan al horario del local de ese día.
-// El último turno arranca media hora antes del fin de cada franja
+// Franjas de cada estilista (10.5 = 10:30). "semana" vale para todos los días; un número de día
+// (0 = domingo) la reemplaza ese día, y una lista vacía significa que ese día no trabaja.
+// Se recortan al horario del local y el último turno arranca media hora antes del fin de cada franja
 const BARBER_HOURS = {
-  Pablo: [[10.5, 13.5], [16, 19.5]],
-  Franky: [[12, 24]],
-  Aixa: [[12, 24]],
+  Pablo: { semana: [[10.5, 13.5], [16, 19.5]], 6: [[10.5, 14]] },
+  Franky: { semana: [[12, 24]] },
+  Aixa: { semana: [[12, 24]], 1: [] },
 };
 const SLOT_MINUTES = 30;
 const DAYS_AHEAD = 7;
@@ -343,13 +344,16 @@ function ask(placeholder, isValid) {
   });
 }
 
-// Próximos días con atención según SCHEDULE
-function nextDays() {
+// Franjas de un estilista para un día de la semana
+const rangesFor = (barber, weekday) => BARBER_HOURS[barber][weekday] ?? BARBER_HOURS[barber].semana;
+
+// Próximos días en los que el estilista (o cualquiera, con "Sin preferencia") todavía tiene turnos
+function nextDays(barber) {
   const days = [];
-  for (let i = 0; days.length < DAYS_AHEAD; i++) {
+  for (let i = 0; days.length < DAYS_AHEAD && i < 31; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
-    if (!SCHEDULE[date.getDay()]) continue;
+    if (!SCHEDULE[date.getDay()] || !timeSlots(date, barber).length) continue;
     days.push({ label: formatDay(date), value: date });
   }
   return days;
@@ -359,7 +363,8 @@ function nextDays() {
 // Si es hoy, solo quedan los que todavía no pasaron
 function timeSlots(date, barber) {
   const [open, close] = SCHEDULE[date.getDay()];
-  const ranges = BARBER_HOURS[barber] || Object.values(BARBER_HOURS).flat();
+  const weekday = date.getDay();
+  const ranges = BARBER_HOURS[barber] ? rangesFor(barber, weekday) : Object.keys(BARBER_HOURS).flatMap((name) => rangesFor(name, weekday));
   const now = new Date();
   const nowHours = date.toDateString() === now.toDateString() ? now.getHours() + now.getMinutes() / 60 : -1;
   const step = SLOT_MINUTES / 60;
@@ -396,13 +401,9 @@ async function runFlow(presetService) {
   booking.barber = await choose([...barbers, "Sin preferencia"].map((b) => ({ label: b, value: b })));
 
   setStep(3);
-  let slots = [];
-  do {
-    await say("¿Qué día te queda bien?");
-    booking.day = await choose(nextDays());
-    slots = timeSlots(booking.day, booking.barber);
-    if (!slots.length) await say("Ese día ya no quedan horarios. Elegí otro.");
-  } while (!slots.length);
+  await say("¿Qué día te queda bien?");
+  booking.day = await choose(nextDays(booking.barber));
+  const slots = timeSlots(booking.day, booking.barber);
 
   setStep(4);
   await say("¿En qué horario?");
